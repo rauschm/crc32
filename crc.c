@@ -1,10 +1,10 @@
 /****************************************************************************/
 /*  C R C . C                                                               */
 /*                                                                          */
-/*  Das Programm berechnet einen 32 Bit CRC fÃ¼r jede Datei. Das Polynom     */
+/*  Das Programm berechnet einen 32 Bit CRC für jede Datei. Das Polynom     */
 /*  P = x^32+x^26+x^23+x^22+x^16+x^12+x^11+x^10+x^8+x^7+x^5+x^4+x^2+x+1     */
 /*  wird als Generator-Polynom verwendet. Wenn die Datei als Polynom Q      */
-/*  betrachtet wird, mit dem LSB des 1. Bytes als hÃ¶chster Potenz so gilt:  */
+/*  betrachtet wird, mit dem LSB des 1. Bytes als höchster Potenz so gilt:  */
 /*  CRC = (Q * x^32) mod P.                                                 */
 /*                                                                          */
 /*  Aufruf: crc [Optionen]... [<] Datei...                                  */
@@ -77,7 +77,7 @@ unsigned int crctab[256] =
 };
 
 /*----------------------------------------------------------------------------------------------
-  Die voran stehende Tabelle kÃ¶nnte mit einer der beiden folgenden Funktionen
+  Die voran stehende Tabelle könnte mit einer der beiden folgenden Funktionen
   berechnet werden:
 
   void normalCrcTableBuild(unsigned int crctab[256]) {
