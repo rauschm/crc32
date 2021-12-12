@@ -1,0 +1,10 @@
+int main(int argc, char* argv[]);
+void parseOptions(int* argcRef, char** argvRef[]);
+void printCrcForNamedFile(char* fileName);
+void printCrcForFile(FILE* f, char* fileName);
+Crc calcCrcForBuffer(Crc crc, unsigned char* bufferPos, int bufferLength);
+void usage(void);
+FILE* openFile(char* fileName);
+FILE* useStdin(void);
+void closeFile(FILE* f);
+void exitWithErrorMessage(char* format, ...);
