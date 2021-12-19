@@ -147,14 +147,21 @@ void printCrcForNamedFile(char* fileName)
 {
   FILE* f = openFile(fileName);
   printCrcForFile(f, fileName);
+  closeFile(f);
 }
 
 
 void printCrcForFile(FILE* f, char* fileName)
 {
+  Crc crc = calcCrcForFile(f, fileName);
+  printf("%08X : %s\n", ~(opt.ignoreTrailingSpaces ? crc.noTrailingSpaces : crc.total), fileName);  
+}
+
+
+Crc calcCrcForFile(FILE* f, char* fileName)
+{
   unsigned char fileBuffer[0x4000];
   int           bufferLength;
-  int           error;
   Crc           crc = {~0U, ~0U};
 
   do
@@ -163,13 +170,8 @@ void printCrcForFile(FILE* f, char* fileName)
     crc = calcCrcForBuffer(crc, fileBuffer, bufferLength);
   }
   while (bufferLength == sizeof(fileBuffer));
-
-  error = ferror(f) ? errno : 0;
-  closeFile(f);
-  if (error)
-    exitWithErrorMessage("crc: read error %s: %s\n", fileName, strerror(error));
-
-  printf("%08X : %s\n", ~(opt.ignoreTrailingSpaces ? crc.noTrailingSpaces : crc.total), fileName);  
+  checkFileError(f, fileName);
+  return crc;
 }
 
 
@@ -195,7 +197,7 @@ Crc calcCrcForBuffer(Crc crc, unsigned char* bufferPos, int bufferLength)
 void usage(void)
 {
   exitWithErrorMessage("Berechnet die CRC-32 Werte der Dateien\n"
-                       "Aufruf: crc [Optionen]... [<] Datei...\n\n"
+                       "Aufruf: crc [Option]... [<] Datei...\n\n"
                        "Optionen:\n"
                        "  -d : vor jedem LF ein CR einfuegen\n"
                        "  -t : Leerzeichen am Zeilenende ignorieren\n");
@@ -207,7 +209,7 @@ FILE* openFile(char* fileName)
   FILE* f;
 
   if ((f = fopen(fileName, "rb")) == NULL)
-    exitWithErrorMessage("open error %s: %s\n", fileName, strerror(errno));
+    exitWithErrorMessage("crc: open error %s: %s\n", fileName, strerror(errno));
   return f;
 }
 
@@ -223,6 +225,17 @@ void closeFile(FILE* f)
 {
   if (f != stdin)
     fclose(f);
+}
+
+
+void checkFileError(FILE* f, char* fileName)
+{
+  if (ferror(f))
+  {
+    int err = errno;
+    closeFile(f);
+    exitWithErrorMessage("crc: read error %s: %s\n", fileName, strerror(err));
+  }
 }
 
 
