@@ -16,8 +16,8 @@
 #include <stdlib.h>
 #include <string.h>
 #ifndef _WIN32
-#define _setmode(x,y)
 #include <unistd.h>
+#define _setmode(x,y)
 #else
 #include <fcntl.h>
 #include <io.h>
@@ -30,7 +30,7 @@ typedef struct {
   unsigned int total;
   unsigned int noTrailingSpaces;
 } Crc;
- 
+
 
 #include "crc_proto.h"
 
@@ -154,7 +154,7 @@ void printCrcForNamedFile(char* fileName)
 void printCrcForFile(FILE* f, char* fileName)
 {
   Crc crc = calcCrcForFile(f, fileName);
-  printf("%08X : %s\n", ~(opt.ignoreTrailingSpaces ? crc.noTrailingSpaces : crc.total), fileName);  
+  printf("%08X : %s\n", ~(opt.ignoreTrailingSpaces ? crc.noTrailingSpaces : crc.total), fileName);
 }
 
 
