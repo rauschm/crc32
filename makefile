@@ -14,20 +14,19 @@ else
   CP = cp
   RM = rm -f
   BIN_DIR = /data/doc/bin
-  PROTO_GEN = '$$b=/^[A-Za-z].+[(,)]$$/||$$b;$$e=/\)$$/;if($$b){chomp;print;if($$e){print";";$$b=!$$b};print$$/}'
 endif
-PROTO_GEN = ${QUOTE}$$b=/^[A-Za-z].+[(,)]$$/||$$b;$$e=/\)$$/;if($$b){chomp;print;if($$e){print chr(59);$$b=!$$b};print$$/}${QUOTE}
+PROTO_GEN = $(QUOTE)$$b=/^[A-Za-z].+[(,)]$$/||$$b;$$e=/\)$$/;if($$b){chomp;print;if($$e){print chr(59);$$b=!$$b};print$$/}$(QUOTE)
 
 .PHONY : clean install
 
 PROJ = $(notdir $(CURDIR))
 
-${PROJ}${EXE} : ${PROJ}.c
-	@perl -ne ${PROTO_GEN} ${PROJ}.c > ${PROJ}_proto.h
-	${CC} ${PROJ}${EXE} ${PROJ}.c
+$(PROJ)$(EXE) : $(PROJ).c
+	@perl -ne $(PROTO_GEN) $(PROJ).c > $(PROJ)_proto.h
+	$(CC) $(PROJ)$(EXE) $(PROJ).c
 
 clean :
-	@${RM} ${PROJ}${EXE} ${PROJ}${OBJ} ${PROJ}_proto.h
+	@$(RM) $(PROJ)$(EXE) $(PROJ)$(OBJ) $(PROJ)_proto.h
 
-install : ${PROJ}${EXE}
-	@${CP} ${PROJ}${EXE} ${BIN_DIR}
+install : $(PROJ)$(EXE)
+	@$(CP) $(PROJ)$(EXE) $(BIN_DIR)
