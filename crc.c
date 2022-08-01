@@ -11,8 +11,8 @@
 /****************************************************************************/
 
 #include <errno.h>
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #ifndef _WIN32
@@ -197,7 +197,7 @@ Crc calcCrcForBuffer(Crc crc, unsigned char* bufferPos, int bufferLength)
 void usage(void)
 {
   exitWithErrorMessage("Berechnet die CRC-32 Werte der Dateien\n"
-                       "Aufruf: crc [Option]... [<] Datei...\n\n"
+                       "Aufruf: crc [Optionen]... [<] Datei...\n\n"
                        "Optionen:\n"
                        "  -d : vor jedem LF ein CR einfuegen\n"
                        "  -t : Leerzeichen am Zeilenende ignorieren\n");
